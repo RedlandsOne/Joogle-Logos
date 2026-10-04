@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joogle Logo</title>
+<style>
+  :root{
+    --paper:#FBF5EA; --ink:#1E2A5A; --tomato:#FF5A3C; --mustard:#FFB627;
+    --teal:#1FA37A; --blue:#2C6BED; --line:#E7DCC8; --muted:#7A7466;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    --mono:"Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--serif);
+    background-image:radial-gradient(#e9dec9 1px,transparent 1px);background-size:22px 22px;
+    padding:40px 24px 90px;min-height:100vh}
+  .wrap{max-width:1040px;margin:0 auto}
+  header{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--ink);padding-bottom:10px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  .hero{background:#fff;border:2px solid var(--ink);border-radius:28px;margin:28px 0 14px;padding:70px 40px 56px;
+    box-shadow:8px 8px 0 var(--ink);text-align:center;position:relative;overflow:hidden}
+  .hero svg{width:min(640px,100%);height:auto;display:block;margin:0 auto}
+  .hero .tag{margin-top:26px;font-style:italic;font-size:20px;color:var(--muted)}
+  .hint{position:absolute;top:18px;right:22px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+  h2{font-size:28px;font-weight:normal;margin:46px 0 16px}
+  h2 em{color:var(--tomato)}
+  .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+  .card{border:2px solid var(--ink);border-radius:20px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+  .card .stage{height:200px;display:flex;align-items:center;justify-content:center;padding:28px}
+  .card .stage svg{max-width:100%;max-height:100%}
+  .card .meta{border-top:2px solid var(--ink);display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-family:var(--mono);font-size:12px}
+  button{font-family:var(--mono);font-size:11px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:99px;padding:5px 11px;cursor:pointer;transition:transform .15s,background .15s}
+  button:hover{background:var(--mustard);transform:translateY(-2px)}
+  .sizes{display:flex;align-items:flex-end;gap:22px}
+  .palette{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+  .sw{border:2px solid var(--ink);border-radius:16px;height:110px;padding:10px;display:flex;flex-direction:column;justify-content:flex-end;font-family:var(--mono);font-size:11px;cursor:pointer}
+  .sw b{font-family:var(--serif);font-size:15px;font-weight:normal;display:block}
+  .notes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;font-size:16px;line-height:1.5}
+  .notes h3{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;color:var(--tomato)}
+  @media (max-width:760px){.grid,.notes{grid-template-columns:minmax(0,1fr)}.palette{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @keyframes pop{from{opacity:0;transform:translateY(18px) scale(.9)}to{opacity:1;transform:none}}
+  .hero .ltr{animation:pop .6s cubic-bezier(.3,1.6,.5,1) both;transform-box:fill-box;transform-origin:center}
+  @media print{body{padding:0;background-image:none}.hero{box-shadow:none}button,.hint{display:none}.card,.hero{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><span>Joogle · Brand Mark v1</span><span>Oct 2026</span></header>
+
+  <section class="hero">
+    <span class="hint">MOVE YOUR CURSOR · CLICK TO BLINK</span>
+    <div id="heroLogo"></div>
+    <p class="tag">Search with your eyes wide open.</p>
+  </section>
+
+  <h2>Lockups <em>&amp;</em> variations</h2>
+  <div class="grid" id="variants"></div>
+
+  <h2>Palette</h2>
+  <div class="palette" id="palette"></div>
+
+  <h2>Thinking behind it</h2>
+  <div class="notes">
+    <div><h3>The eyes</h3>The double “oo” become a pair of googly eyes that actually look around. They make the name memorable and hint at what a search engine does: look things up for you.</div>
+    <div><h3>The strokes</h3>Every letter is drawn with one thick stroke and round ends, so the mark stays friendly, scales cleanly and has no font to license.</div>
+    <div><h3>The colour</h3>Warm, sun-faded primaries on cream. The colours feel familiar for a search brand, but they're Joogle's own set: tomato, mustard, teal and cobalt, with navy for type.</div>
+  </div>
+</div>
+
+<script>
+const C={ink:"#1E2A5A",tomato:"#FF5A3C",mustard:"#FFB627",teal:"#1FA37A",blue:"#2C6BED",paper:"#FBF5EA"};
+const SW=22;
+
+function wordmark(o={}){
+  const col=o.mono?Array(6).fill(o.mono):[C.ink,C.tomato,C.mustard,C.teal,C.blue,C.tomato];
+  const sclera=o.sclera||"#fff", pupil=o.pupil||C.ink, cls=o.anim?'class="ltr"':'';
+  const d=i=>o.anim?`style="animation-delay:${i*70}ms"`:'';
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -4 548 208" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="${SW}">
+  <defs><clipPath id="e1"><circle cx="138" cy="105" r="36"/></clipPath><clipPath id="e2"><circle cx="231" cy="105" r="36"/></clipPath></defs>
+  <path ${cls} ${d(0)} d="M74 40 V134 a30 30 0 0 1 -60 0" stroke="${col[0]}"/>
+  <g ${cls} ${d(1)}><circle cx="138" cy="105" r="35" fill="${sclera}" stroke="${col[1]}"/><g class="pupil" data-cx="138" data-cy="105"><circle cx="138" cy="105" r="13" fill="${pupil}" stroke="none"/><circle cx="142" cy="100" r="4" fill="#fff" stroke="none"/></g><rect class="lid" clip-path="url(#e1)" x="98" y="64" width="80" height="0" fill="${col[1]}" stroke="none"/></g>
+  <g ${cls} ${d(2)}><circle cx="231" cy="105" r="35" fill="${sclera}" stroke="${col[2]}"/><g class="pupil" data-cx="231" data-cy="105"><circle cx="231" cy="105" r="13" fill="${pupil}" stroke="none"/><circle cx="235" cy="100" r="4" fill="#fff" stroke="none"/></g><rect class="lid" clip-path="url(#e2)" x="191" y="64" width="80" height="0" fill="${col[2]}" stroke="none"/></g>
+  <g ${cls} ${d(3)} stroke="${col[3]}"><circle cx="324" cy="105" r="35"/><path d="M359 72 V158 a34 34 0 0 1 -64 14"/></g>
+  <path ${cls} ${d(4)} d="M408 32 V140" stroke="${col[4]}"/>
+  <path ${cls} ${d(5)} d="M437 105 H505 A35 35 0 1 0 495 131" stroke="${col[5]}"/>
+</svg>`;
+}
+
+function icon(bg=C.ink){
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" stroke-width="16">
+  <rect width="200" height="200" rx="46" fill="${bg}"/>
+  <circle cx="68" cy="100" r="34" fill="#fff" stroke="${C.tomato}"/><circle cx="76" cy="104" r="13" fill="${C.ink}"/><circle cx="80" cy="99" r="4" fill="#fff"/>
+  <circle cx="132" cy="100" r="34" fill="#fff" stroke="${C.mustard}"/><circle cx="140" cy="104" r="13" fill="${C.ink}"/><circle cx="144" cy="99" r="4" fill="#fff"/>
+</svg>`;
+}
+
+// Hero
+const hero=document.getElementById('heroLogo');
+hero.innerHTML=wordmark({anim:true});
+const heroSvg=hero.querySelector('svg');
+const pupils=[...heroSvg.querySelectorAll('.pupil')];
+let target={x:0,y:0};
+document.addEventListener('mousemove',e=>{
+  const r=heroSvg.getBoundingClientRect(), s=548/r.width;
+  target={x:(e.clientX-r.left)*s, y:(e.clientY-r.top)*s-4};
+});
+function look(){
+  pupils.forEach(p=>{
+    const cx=+p.dataset.cx, cy=+p.dataset.cy, dx=target.x-cx, dy=target.y-cy;
+    const dist=Math.hypot(dx,dy)||1, m=Math.min(14,dist/12);
+    const tx=dx/dist*m, ty=dy/dist*m;
+    p._x=(p._x||0)+(tx-(p._x||0))*.18; p._y=(p._y||0)+(ty-(p._y||0))*.18;
+    p.setAttribute('transform',`translate(${p._x.toFixed(2)} ${p._y.toFixed(2)})`);
+  });
+  requestAnimationFrame(look);
+}
+target={x:274,y:105}; look();
+
+const lids=[...heroSvg.querySelectorAll('.lid')];
+function blink(){
+  lids.forEach(l=>{
+    const t0=performance.now();
+    (function step(t){const k=Math.min(1,(t-t0)/180), h=82*Math.sin(Math.PI*k);
+      l.setAttribute('height',h.toFixed(1)); if(k<1)requestAnimationFrame(step);})(t0);
+  });
+}
+heroSvg.addEventListener('click',blink); heroSvg.style.cursor='pointer';
+(function loop(){setTimeout(()=>{blink();loop();},2600+Math.random()*3200)})();
+
+// Variants
+const variants=[
+  {name:"Primary",bg:"#fff",svg:wordmark()},
+  {name:"Reversed",bg:C.ink,svg:wordmark({mono:C.paper,sclera:C.ink,pupil:C.paper})},
+  {name:"On tomato",bg:C.tomato,svg:wordmark({mono:"#fff",sclera:C.tomato,pupil:"#fff"})},
+  {name:"Mono ink",bg:C.paper,svg:wordmark({mono:C.ink})},
+  {name:"App icon",bg:C.paper,svg:icon()},
+  {name:"Favicon sizes",bg:"#fff",svg:icon(C.tomato),sizes:true},
+];
+const grid=document.getElementById('variants');
+variants.forEach((v,i)=>{
+  const card=document.createElement('div'); card.className='card';
+  const stage=v.sizes?`<div class="sizes">${[96,48,24].map(s=>`<div style="width:${s}px;height:${s}px">${v.svg}</div>`).join('')}</div>`:v.svg;
+  card.innerHTML=`<div class="stage" style="background:${v.bg}">${stage}</div><div class="meta"><span>${String(i+1).padStart(2,'0')} · ${v.name}</span><button>Download SVG</button></div>`;
+  card.querySelector('button').onclick=()=>{
+    const blob=new Blob([v.svg],{type:'image/svg+xml'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download=`joogle-${v.name.toLowerCase().replace(/\s+/g,'-')}.svg`; a.click();
+  };
+  grid.appendChild(card);
+});
+
+// Palette
+const pal=[["Ink",C.ink,"#fff"],["Tomato",C.tomato,"#fff"],["Mustard",C.mustard,C.ink],["Teal",C.teal,"#fff"],["Cobalt",C.blue,"#fff"],["Paper",C.paper,C.ink]];
+const pe=document.getElementById('palette');
+pal.forEach(([n,h,t])=>{
+  const d=document.createElement('div'); d.className='sw'; d.style.background=h; d.style.color=t;
+  d.innerHTML=`<b>${n}</b>${h}`; d.title='Click to copy';
+  d.onclick=()=>{navigator.clipboard&&navigator.clipboard.writeText(h); d.lastChild.textContent='copied!'; setTimeout(()=>d.lastChild.textContent=h,900)};
+  pe.appendChild(d);
+});
+</script>
+</body>
+</html>
